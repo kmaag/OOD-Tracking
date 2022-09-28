@@ -1,0 +1,128 @@
+# -----------------------------------------------------------
+# general settings
+# -----------------------------------------------------------
+
+outputs_root: ./outputs/
+checkpoints:
+  segmentation: ./checkpoints/DeepLabV3+_WideResNet38_cityscapes.pth
+  ood_prediction: ./checkpoints/DeepLabV3+_WideResNet38_entropy_maximized.pth
+dataset: sos   # choose from [sos, carla]
+meta_model: LogisticRegression  # choose from [LogisticRegression, GradientBoostingClassifier]
+embedding_model: FeatureResNet152 # choose from [FeatureDenseNet201, FeatureResNet152, FeatureWideResNet101]
+num_cpus: 1
+
+
+# -----------------------------------------------------------
+# dataloader
+# -----------------------------------------------------------
+
+dataloader_sos:
+  _target_: src.datasets.sos
+  root: /home/user
+  sequences:
+    - ALL
+    # - 1
+    # - 2
+
+dataloader_carla:
+  _target_: src.datasets.carla
+  root: /home/user
+  sequences:
+    - ALL
+    # - 1
+    # - 2
+
+roi_sos:
+  _target_: src.smoothers.ROI_SOS
+  size: 120
+
+roi_carla:
+  _target_: src.smoothers.ROI_Carla
+  size: 120
+
+names:
+  sos: street_obstacle_sequences
+  carla: carla_wildlife_sequences
+
+
+# -----------------------------------------------------------
+# ood_predict.py 
+# -----------------------------------------------------------
+
+tasks:
+  segmentation: False
+  ood_prediction: False
+  meta_classification: False
+  tracking: False
+  plot_tracking : False
+  eval_tracking : False
+  compute_embeddings: False
+  clustering: False
+  eval_clustering: False
+
+params:
+  sos:
+    entropy_thresh: 0.72
+  carla:
+    entropy_thresh: 0.81
+
+# more options
+cross_val: False
+
+crop_size: 8
+
+save:
+  road_roi: True
+  semantic: True
+  color: True
+  probs: True
+  ood_heat: True
+
+
+# -----------------------------------------------------------
+# meta_ood.py 
+# -----------------------------------------------------------
+
+LogisticRegression:
+  _target_: src.metaseg.meta_models.logistic_regression
+  random_state: 0
+  solver: saga
+  max_iter: 1000
+  tol: 1e-3
+
+GradientBoostingClassifier:
+  _target_: src.metaseg.meta_models.gradient_boosting
+  random_state: 0
+  n_estimators: 100
+  min_samples_split: 2
+  min_samples_leaf: 1
+  max_depth: 3
+
+
+# -----------------------------------------------------------
+# ood_retrieval.py 
+# -----------------------------------------------------------
+
+FeatureDenseNet201:
+  _target_: src.embedding_networks.feature_densenet201
+
+FeatureResNet152:
+  _target_: src.embedding_networks.feature_resnet152
+
+FeatureWideResNet101:
+  _target_: src.embedding_networks.feature_wide_resnet101
+
+
+# -----------------------------------------------------------
+# hydra settings                                       
+# uncomment all the following to fully disable logging 
+# -----------------------------------------------------------
+
+defaults:
+  - _self_
+  - override hydra/hydra_logging: disabled
+  - override hydra/job_logging: disabled
+hydra:
+  output_subdir: null
+  run:
+    dir: .

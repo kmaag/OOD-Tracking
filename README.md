@@ -1,5 +1,7 @@
 ## OOD Segmentation, Tracking and Retrieval:
 
+For a detailed description, please refer to https://arxiv.org/abs/2210.02074.
+
 ### Packages and their versions:
 Code tested with ```Python 3.6.10``` and ```pip 21.3.1```.
 Install Python packages via
@@ -13,6 +15,10 @@ mkdir checkpoints
 wget -O ./checkpoints/DeepLabV3+_WideResNet38_cityscapes.pth https://uni-wuppertal.sciebo.de/s/WVFTc4ka37xASZV/download
 wget -O ./checkpoints/DeepLabV3+_WideResNet38_entropy_maximized.pth https://uni-wuppertal.sciebo.de/s/kCgnr0LQuTbrArA/download
 ```
+
+### Datasets:
+- https://zenodo.org/communities/buw-ood-tracking
+- https://uni-wuppertal.sciebo.de/s/RYiJpr3NGZ3PWER
 
 ### Preparation:
 Edit all necessary paths stored in "config.yaml". By default the outputs will be saved in "./outputs".
@@ -32,4 +38,7 @@ Code adapted from:
 
 
 ## Authors:
-Kira Maag, Robin Chan, Svenja Uhlemeyer and Kamil Kowol
+- Kira Maag (Ruhr University Bochum)
+- Robin Chan (Bielefeld University)
+- Svenja Uhlemeyer (University of Wuppertal)
+- Kamil Kowol (University of Wuppertal)

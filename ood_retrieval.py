@@ -136,10 +136,6 @@ def dbscan_detect(data, eps, min_samples, metric, min_cluster_size):
     model = DBSCAN(eps=eps, min_samples=min_samples, metric=metric).fit(data)
     data = np.asarray(data)
     label = model.labels_ + 1
-    # core = model.core_sample_indices_
-    # for i in range(len(label)):
-    #     if i not in core:
-    #         label[i] = -1
     cluster = []
     n_clusters = len(np.unique(label))
     v = 0

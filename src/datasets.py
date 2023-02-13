@@ -27,7 +27,7 @@ class sos():
     Dataset class for the Street Obstacle Sequences dataset
     Args:
         root (string): Root directory of dataset
-        sequence (string, optional): The image sequences to load
+        sequences (string, optional): The image sequences to load
         target_type (string or list, optional): Type of target to use, choose from ("semantic_ood", "instance_ood", "depth_ood", "semantic").
         transforms (callable, optional): A function/transform that takes input sample and its target as entry and returns a transformed version.
     """
@@ -173,6 +173,11 @@ class sos():
 class carla():
     """
     Dataset loader for the Carla Wildlife Sequences dataset
+    Args:
+        root (string): Root directory of dataset
+        sequences (string, optional): The image sequences to load
+        target_type (string or list, optional): Type of target to use, choose from ("semantic_ood", "instance_ood", "depth_ood", "semantic").
+        transforms (callable, optional): A function/transform that takes input sample and its target as entry and returns a transformed version.
     """
     def __init__(self, root: str, sequences: str = ["all"],  target_type: Union[List[str], str] = "semantic_ood", transforms: Optional[Callable] = None):
         self.root = root
